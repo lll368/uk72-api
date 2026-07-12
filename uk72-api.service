@@ -1,0 +1,18 @@
+# File path: /etc/systemd/system/uk72-api.service
+# sudo systemctl daemon-reload
+# sudo systemctl start uk72-api
+# sudo systemctl enable uk72-api
+# sudo systemctl status uk72-api
+[Unit]
+Description=uk72-api Service
+After=network.target
+
+[Service]
+User=ubuntu  # 注意修改用户名
+WorkingDirectory=/path/to/uk72-api  # 注意修改路径
+ExecStart=/path/to/uk72-api/uk72-api --port 3000 --log-dir /path/to/uk72-api/logs  # 注意修改路径和端口号
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

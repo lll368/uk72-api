@@ -1,0 +1,7 @@
+name: uk72-api-build
+
+services:
+  uk72-api:
+    build:
+      context: .
+      dockerfile: Dockerfile

@@ -1,0 +1,73 @@
+# uk72-api Docker Compose Configuration
+#
+# Quick Start:
+#   1. docker compose up -d
+#   2. Access http://localhost:3000
+#
+# This compose file runs:
+#   - uk72-api
+#
+# IMPORTANT:
+#   - Change default passwords before production deployment.
+#   - MySQL and Redis are expected to run outside Docker.
+#   - Put .env next to this file and provide SQL_DSN and REDIS_CONN_STRING there.
+#   - docker compose will fail fast when either variable is missing.
+
+name: uk72-api
+
+services:
+  uk72-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: uk72-api:local
+    container_name: uk72-api
+    restart: always
+    command: --log-dir /app/logs
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/data
+      - ./logs:/app/logs
+    environment:
+      - "SQL_DSN=${SQL_DSN:?SQL_DSN is required}"
+      - "REDIS_CONN_STRING=${REDIS_CONN_STRING:?REDIS_CONN_STRING is required}"
+      - TZ=Asia/Shanghai
+      - DEBUG=${DEBUG:-false}
+      - ERROR_LOG_ENABLED=true
+      - BATCH_UPDATE_ENABLED=true
+      - NODE_NAME=uk72-api-node-1
+      - SMS_ENABLED=${SMS_ENABLED:-false}
+      - SMS_PROVIDER=${SMS_PROVIDER:-aliyun}
+      - ALIYUN_SMS_ENDPOINT=${ALIYUN_SMS_ENDPOINT:-}
+      - ALIYUN_SMS_ACCESS_KEY_ID=${ALIYUN_SMS_ACCESS_KEY_ID:-}
+      - ALIYUN_SMS_ACCESS_KEY_SECRET=${ALIYUN_SMS_ACCESS_KEY_SECRET:-}
+      - ALIYUN_SMS_SIGN_NAME=${ALIYUN_SMS_SIGN_NAME:-}
+      - ALIYUN_SMS_TEMPLATE_CODE=${ALIYUN_SMS_TEMPLATE_CODE:-}
+      - SMTP_SERVER=${SMTP_SERVER:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_SSL_ENABLED=${SMTP_SSL_ENABLED:-false}
+      - SMTP_FORCE_AUTH_LOGIN=${SMTP_FORCE_AUTH_LOGIN:-false}
+      - SMTP_ACCOUNT=${SMTP_ACCOUNT:-}
+      - SMTP_FROM=${SMTP_FROM:-}
+      - SMTP_TOKEN=${SMTP_TOKEN:-}
+#      - STREAMING_TIMEOUT=300
+#      - SESSION_SECRET=random_string
+#      - SYNC_FREQUENCY=60
+#      - GOOGLE_ANALYTICS_ID=G-XXXXXXXXXX
+#      - UMAMI_WEBSITE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+#      - UMAMI_SCRIPT_URL=https://analytics.umami.is/script.js
+    networks:
+      - uk72-api-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://localhost:3000/api/status | grep -o '\"success\":\\s*true' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  uk72-api-network:
+    driver: bridge

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>72</title>
+    <meta name="title" content="72" />
+    <meta
+      name="description"
+      content="72 is a unified AI API gateway and admin dashboard."
+    />
+
+    <meta name="theme-color" content="#fff" />
+    <style>
+      /* First-paint skeleton: shows immediately while the JS bundle is downloading/parsing.
+         React replaces #root once the app is ready, so this is automatically removed. */
+      html, body { margin: 0; padding: 0; background: #ffffff; }
+      @media (prefers-color-scheme: dark) {
+        html, body { background: #0a0a0a; }
+      }
+      #app-boot-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: #ffffff;
+        z-index: 9999;
+      }
+      @media (prefers-color-scheme: dark) {
+        #app-boot-loader { background: #0a0a0a; }
+      }
+      #app-boot-loader .spinner {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 3px solid rgba(0, 0, 0, 0.08);
+        border-top-color: #2563eb;
+        animation: app-boot-spin 0.9s linear infinite;
+      }
+      @media (prefers-color-scheme: dark) {
+        #app-boot-loader .spinner {
+          border-color: rgba(255, 255, 255, 0.12);
+          border-top-color: #60a5fa;
+        }
+      }
+      @keyframes app-boot-spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <!--umami-->
+    <!--Google Analytics-->
+  </head>
+
+  <body>
+    <div id="root">
+      <div id="app-boot-loader" aria-hidden="true">
+        <div class="spinner"></div>
+      </div>
+    </div>
+  </body>
+</html>
